@@ -34,6 +34,15 @@ export const FolderItemButton = styled(ListItemButton)({
   padding: `${pxToRem(8)} ${pxToRem(11)} ${pxToRem(8)} ${pxToRem(10)}`,
   gap: pxToRem(6),
   borderRadius: "3px",
+  "& .MuiIconButton-root": {
+    opacity: 0,
+    transition: "opacity linear 0.1s",
+  },
+  ":hover": {
+    "& .MuiIconButton-root": {
+      opacity: 1,
+    },
+  },
 });
 
 export const ExpandIcon = styled(ExpandMoreIcon)({

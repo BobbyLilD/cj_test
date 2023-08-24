@@ -1,5 +1,5 @@
 import { Collapse, IconButton, List } from "@mui/material";
-import { FolderData } from "../../../types";
+import { FileData, FolderData } from "../../../types";
 import {
   ExpandIcon,
   FolderItemButton,
@@ -16,10 +16,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
 import { COLOR_TEXT_LIGHTGRAY } from "../../../utils/colors";
 import { pxToRem } from "../../../utils/helpers";
+import FileItem from "../FileItem";
 
 interface FolderItemProps {
   id: number;
   getFolderById: (id: number) => FolderData | null;
+  getFileById: (id: number) => FileData | null;
   activeFolderId: number;
   onClick: (id: number) => void;
   onAddSequenceClick: () => void;
@@ -29,12 +31,13 @@ interface FolderItemProps {
 const FolderItem = ({
   id,
   getFolderById,
+  getFileById,
   activeFolderId,
   onClick,
   onAddSequenceClick,
   onDeleteClick,
 }: FolderItemProps) => {
-  const [data, setData] = useState<FolderData | null>(getFolderById(id));
+  const data = getFolderById(id);
 
   const [openSubList, setOpenSubList] = useState(false);
   const [addMenuOpen, setAddMenuOpen] = useState(false);
@@ -79,13 +82,23 @@ const FolderItem = ({
           {data &&
             data.childFolderIdList.map((v) => (
               <FolderItem
-                key={v}
+                key={`folder-${v}`}
                 id={v}
+                getFileById={getFileById}
                 getFolderById={getFolderById}
                 onAddSequenceClick={onAddSequenceClick}
                 onDeleteClick={onDeleteClick}
                 onClick={onClick}
                 activeFolderId={activeFolderId}
+              />
+            ))}
+          {data &&
+            data.fileIdList.map((v) => (
+              <FileItem
+                key={`file-${v}`}
+                id={v}
+                getFileById={getFileById}
+                onDeleteClick={onDeleteClick}
               />
             ))}
         </List>

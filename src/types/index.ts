@@ -9,5 +9,5 @@ export interface FolderData {
 export interface FileData {
     id: number;
     title: string;
-    parentFolder: FolderData;
+    parentFolderId: number;
 }
