@@ -43,9 +43,14 @@ const FolderItem = ({
   const [addMenuOpen, setAddMenuOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
 
+  const onFolderClick = () => {
+    setOpenSubList(!openSubList);
+    onClick(id);
+  };
   const onAddClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (openSubList) {
       e.stopPropagation();
+      onClick(id);
     }
     setAddMenuOpen(!addMenuOpen);
   };
@@ -56,10 +61,7 @@ const FolderItem = ({
   return (
     <>
       <FolderItemButton
-        onClick={() => {
-          setOpenSubList(!openSubList);
-          onClick(id);
-        }}
+        onClick={onFolderClick}
         sx={activeFolderId === id ? ItemActiveSX : {}}
         ref={anchorRef}
       >
