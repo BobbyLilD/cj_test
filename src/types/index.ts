@@ -11,3 +11,8 @@ export interface FileData {
     title: string;
     parentFolderId: number;
 }
+
+export enum NewItemType {
+    FOLDER,
+    FILE
+}

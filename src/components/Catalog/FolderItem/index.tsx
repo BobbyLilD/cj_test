@@ -1,5 +1,5 @@
 import { Collapse, IconButton, List } from "@mui/material";
-import { FileData, FolderData } from "../../../types";
+import { FileData, FolderData, NewItemType } from "../../../types";
 import {
   ExpandIcon,
   FolderItemButton,
@@ -10,7 +10,7 @@ import {
   AddMenu,
   AddMenuItem,
 } from "./style";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
@@ -24,7 +24,7 @@ interface FolderItemProps {
   getFileById: (id: number) => FileData | null;
   activeFolderId: number;
   onClick: (id: number) => void;
-  onAddSequenceClick: () => void;
+  onAddItemClick: (type: NewItemType) => void;
   onDeleteClick: () => void;
 }
 
@@ -34,7 +34,7 @@ const FolderItem = ({
   getFileById,
   activeFolderId,
   onClick,
-  onAddSequenceClick,
+  onAddItemClick,
   onDeleteClick,
 }: FolderItemProps) => {
   const data = getFolderById(id);
@@ -88,7 +88,7 @@ const FolderItem = ({
                 id={v}
                 getFileById={getFileById}
                 getFolderById={getFolderById}
-                onAddSequenceClick={onAddSequenceClick}
+                onAddItemClick={onAddItemClick}
                 onDeleteClick={onDeleteClick}
                 onClick={onClick}
                 activeFolderId={activeFolderId}
@@ -111,11 +111,11 @@ const FolderItem = ({
         onClose={handleAddMenuClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <AddMenuItem>
+        <AddMenuItem onClick={() => onAddItemClick(NewItemType.FOLDER)}>
           <FolderIcon />
           Add Folder
         </AddMenuItem>
-        <AddMenuItem>
+        <AddMenuItem onClick={() => onAddItemClick(NewItemType.FILE)}>
           <MovieCreationOutlinedIcon />
           Add Sequence
         </AddMenuItem>

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { CssBaseline, List } from "@mui/material";
 import { CatalogDrawer, PageContainer } from "./App.style";
 import FolderItem from "./components/Catalog/FolderItem";
-import { FileData, FolderData } from "./types";
+import { FileData, FolderData, NewItemType } from "./types";
+import AddItemModal from "./components/Forms/AddItem";
 
 const folderListDataMock: FolderData[] = [
   {
@@ -62,25 +63,79 @@ function App() {
     return null;
   };
 
+  const [newItemModalOpen, setNewItemModalOpen] = useState(false);
+  const [newItemType, setNewItemType] = useState(NewItemType.FILE);
+  const changeNewItemModalOpen = () => {
+    setNewItemModalOpen(!newItemModalOpen);
+  };
+  const onNewItemClick = (type: NewItemType) => {
+    setNewItemType(type);
+    changeNewItemModalOpen();
+  };
+  const addNewFile = (title: string) => {
+    const newFile: FileData = {
+      id: fileList.length + 1,
+      title: title,
+      parentFolderId: activeFolderId,
+    };
+    const parentFolder = folderList[activeFolderId];
+    parentFolder.fileIdList.push(fileList.length + 1);
+    setFileList([...fileList, newFile]);
+    setFolderList([
+      ...folderList.slice(0, activeFolderId),
+      parentFolder,
+      ...folderList.slice(activeFolderId + 1),
+    ]);
+  };
+
+  const addNewFolder = (title: string) => {
+    const newFolder: FolderData = {
+      id: folderList.length,
+      title: title,
+      parentFolderId: activeFolderId,
+      childFolderIdList: [],
+      fileIdList: [],
+    };
+    const parentFolder: FolderData = folderList[activeFolderId];
+    parentFolder.childFolderIdList.push(folderList.length);
+    setFolderList([
+      ...folderList.slice(0, activeFolderId),
+      parentFolder,
+      ...folderList.slice(activeFolderId + 1),
+      newFolder,
+    ]);
+  };
   return (
     <React.Fragment>
       <CssBaseline />
       <PageContainer>
+        <AddItemModal
+          folderId={activeFolderId}
+          getFolderById={getFolderById}
+          modalOpen={newItemModalOpen}
+          changeModalOpen={changeNewItemModalOpen}
+          newItemType={newItemType}
+          onSubmit={(value) =>
+            newItemType === NewItemType.FILE
+              ? addNewFile(value)
+              : addNewFolder(value)
+          }
+        />
         <CatalogDrawer open variant="permanent" anchor="left">
-          <List sx={{ width: "100%" }}>
-            {folderList[0].childFolderIdList.map((v) => (
-              <FolderItem
-                key={v}
-                id={v}
-                getFolderById={getFolderById}
-                getFileById={getFileById}
-                activeFolderId={activeFolderId}
-                onClick={(id: number) => setActiveFolderID(id)}
-                onDeleteClick={() => {}}
-                onAddSequenceClick={() => {}}
-              />
-            ))}
-          </List>
+            <List sx={{ width: "100%" }}>
+              {folderList[0].childFolderIdList.map((v) => (
+                <FolderItem
+                  key={v}
+                  id={v}
+                  getFolderById={getFolderById}
+                  getFileById={getFileById}
+                  activeFolderId={activeFolderId}
+                  onClick={(id: number) => setActiveFolderID(id)}
+                  onDeleteClick={() => {}}
+                  onAddItemClick={onNewItemClick}
+                />
+              ))}
+            </List>
         </CatalogDrawer>
       </PageContainer>
     </React.Fragment>
