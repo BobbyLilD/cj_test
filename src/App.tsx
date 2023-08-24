@@ -6,21 +6,18 @@ import { FileData, FolderData, ItemType } from "./types";
 import AddItemModal from "./components/Forms/AddItem";
 import DeleteItemModal from "./components/Forms/DeleteItem";
 import { fileListMock, folderListDataMock } from "./App.test";
-import { idGenerator } from "./utils/helpers";
 
 function App() {
-  const folderIdGenerator = idGenerator(6);
-  const fileIdGenerator = idGenerator(2);
   const [activeFolderId, setActiveFolderID] = useState(0);
   const [folderList, setFolderList] = useState(folderListDataMock);
   const getFolderById = (id: number) => {
-    const item = folderList.find((v) => v.id == id);
+    const item = folderList.find((v) => v.id === id);
     if (item) return item;
     return null;
   };
   const [fileList, setFileList] = useState(fileListMock);
   const getFileById = (id: number) => {
-    const item = fileList.find((v) => v.id == id);
+    const item = fileList.find((v) => v.id === id);
     if (item) return item;
     return null;
   };
@@ -35,13 +32,13 @@ function App() {
     changeNewItemModalOpen();
   };
   const addNewFile = (title: string) => {
-    const newFileId = fileIdGenerator.next().value;
+    const newFileId = Date.now();
     const newFile: FileData = {
       id: newFileId!,
       title: title,
       parentFolderId: activeFolderId,
     };
-    const parentFolderIdx = folderList.findIndex((v) => v.id == activeFolderId);
+    const parentFolderIdx = folderList.findIndex((v) => v.id === activeFolderId);
     if (parentFolderIdx) {
       const parentFolder = folderList[parentFolderIdx];
       parentFolder.fileIdList.push(newFileId!);
@@ -55,22 +52,21 @@ function App() {
   };
 
   const addNewFolder = (title: string) => {
-    const newFileId = folderIdGenerator.next().value;
+    const newFolderId = Date.now();
     const newFolder: FolderData = {
-      id: newFileId!,
+      id: newFolderId!,
       title: title,
       parentFolderId: activeFolderId,
       childFolderIdList: [],
       fileIdList: [],
     };
-    const parentFolderIdx = folderList.findIndex((v) => v.id == activeFolderId);
+    const parentFolderIdx = folderList.findIndex((v) => v.id === activeFolderId);
     if (parentFolderIdx) {
-      const parentFolder = folderList[parentFolderIdx]
-      parentFolder.childFolderIdList.push(newFileId!);
+      const parentFolder = folderList[parentFolderIdx];
+      parentFolder.childFolderIdList.push(newFolderId!);
       setFolderList([
-        ...folderList.slice(0, parentFolderIdx),
+        ...folderList.filter((v) => v.id !== parentFolder.id),
         parentFolder,
-        ...folderList.slice(parentFolderIdx + 1),
         newFolder,
       ]);
     }
@@ -91,34 +87,90 @@ function App() {
     let parentFolderId: number | null = null;
     let path: string[] = [];
     if (deleteItemType === ItemType.FILE) {
-      path.push(fileList[deleteItemId - 1].title);
-      parentFolderId = fileList[deleteItemId - 1].parentFolderId;
+      const file = fileList.find((v) => v.id === deleteItemId);
+      if (file) {
+        path.push(file.title);
+        parentFolderId = file.parentFolderId;
+      }
     }
     if (deleteItemType === ItemType.FOLDER) {
-      path.push(folderList[deleteItemId].title);
-      if (folderList[deleteItemId].parentFolderId) {
-        parentFolderId = folderList[deleteItemId].parentFolderId!;
+      const folder = folderList.find((v) => v.id === deleteItemId);
+      if (folder) {
+        path.push(folder.title);
+        if (folder.parentFolderId) {
+          parentFolderId = folder.parentFolderId!;
+        }
       }
     }
     if (!parentFolderId) return path;
-    while (parentFolderId != null && parentFolderId != 0) {
-      path.push(folderList[parentFolderId].title);
-      parentFolderId = folderList[parentFolderId].parentFolderId;
+    while (parentFolderId !== null && parentFolderId !== 1) {
+      const parentFolder = folderList.find((v) => v.id === parentFolderId);
+      if (parentFolder) {
+        path.push(parentFolder.title);
+        parentFolderId = parentFolder.parentFolderId;
+      }
     }
     return path;
   };
   const deleteItem = () => {
     if (deleteItemType === ItemType.FILE) {
-      const parentFolder = folderList[fileList[deleteItemId].parentFolderId];
-      parentFolder.childFolderIdList = parentFolder.childFolderIdList.filter(
-        (v) => v != deleteItemId
-      );
-      setFolderList([
-        ...folderList.slice(0, parentFolder.id),
-        parentFolder,
-        ...folderList.slice(parentFolder.id + 1),
-      ]);
+      const file = fileList.find((v) => v.id === deleteItemId);
+      if (file) {
+        const parentFolder = folderList.find(
+          (v) => v.id === file.parentFolderId
+        );
+        if (parentFolder) {
+          parentFolder.fileIdList = parentFolder.fileIdList.filter(
+            (v) => v !== deleteItemId
+          );
+          setFolderList([
+            ...folderList.filter((v) => v.id !== parentFolder.id),
+            parentFolder,
+          ]);
+          setFileList([...fileList.filter((v) => v.id !== deleteItemId)]);
+        }
+      }
+    } else {
+      const folder = folderList.find((v) => v.id === deleteItemId);
+      if (folder) {
+        const parentFolder = folderList.find(
+          (v) => v.id === folder.parentFolderId
+        );
+        if (parentFolder) {
+          parentFolder.childFolderIdList =
+            parentFolder.childFolderIdList.filter((v) => v !== deleteItemId);
+          const deepClean = cleanUp(folder);
+          setFolderList([
+            ...folderList.filter(
+              (v) =>
+                !deepClean[0].includes(v.id) &&
+                v.id !== parentFolder.id &&
+                v.id !== folder.id
+            ),
+            parentFolder,
+          ]);
+          setFileList([
+            ...fileList.filter((v) => !deepClean[1].includes(v.id)),
+          ]);
+        }
+      }
     }
+  };
+
+  const cleanUp = (folder: FolderData): [number[], number[]] => {
+    let folderIdList: number[] = [];
+    let fileIdList: number[] = [];
+    fileIdList.push(...folder.fileIdList);
+    for (let id of folder.childFolderIdList) {
+      folderIdList.push(id);
+      const childFolder = folderList.find((v) => v.id === id);
+      if (childFolder) {
+        const deepClean = cleanUp(childFolder);
+        folderIdList.push(...deepClean[0]);
+        fileIdList.push(...deepClean[1]);
+      }
+    }
+    return [folderIdList, fileIdList];
   };
 
   return (
@@ -143,7 +195,7 @@ function App() {
           itemId={deleteItemId}
           deleteItemType={deleteItemType}
           getItemPath={getItemPath}
-          onSubmit={() => {}}
+          onDelete={deleteItem}
         />
         <CatalogDrawer open variant="permanent" anchor="left">
           <List sx={{ width: "100%" }}>

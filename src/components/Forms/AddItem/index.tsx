@@ -38,6 +38,7 @@ const AddItemModal = ({
   }
   const onFormSubmit = () => {
     onSubmit(value);
+    setValue('');
     changeModalOpen();
   }
 

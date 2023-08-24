@@ -17,7 +17,7 @@ interface DeleteItemModalProps {
   modalOpen: boolean;
   changeModalOpen: () => void;
   deleteItemType: ItemType;
-  onSubmit: (title: string) => void;
+  onDelete: () => void;
 }
 
 const DeleteItemModal = ({
@@ -26,7 +26,7 @@ const DeleteItemModal = ({
   modalOpen,
   changeModalOpen,
   deleteItemType,
-  onSubmit,
+  onDelete,
 }: DeleteItemModalProps) => {
   const [path, setPath] = useState<string>("");
   useEffect(() => {
@@ -40,6 +40,10 @@ const DeleteItemModal = ({
 
   const handleClose = () => {
     changeModalOpen();
+  };
+  const handleDelete = () => {
+    onDelete();
+    changeModalOpen();
   }
   return (
     <Modal open={modalOpen} onClose={changeModalOpen} disableAutoFocus>
@@ -50,10 +54,8 @@ const DeleteItemModal = ({
           deleteItemType === ItemType.FILE ? "sequence" : "folder"
         }?`}</ModalMessage>
         <ButtonContainer>
-          <CancelButton onClick={handleClose}>
-            No, cancel
-          </CancelButton>
-          <DeleteButton>Yes, delete</DeleteButton>
+          <CancelButton onClick={handleClose}>No, cancel</CancelButton>
+          <DeleteButton onClick={handleDelete}>Yes, delete</DeleteButton>
         </ButtonContainer>
       </FormContainer>
     </Modal>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FileItemButton, FileTitleTypography } from "./style";
 import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
 import { FileData, ItemType } from "../../../types";
