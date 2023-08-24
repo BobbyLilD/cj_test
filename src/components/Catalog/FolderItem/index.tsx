@@ -1,5 +1,5 @@
 import { Collapse, IconButton, List } from "@mui/material";
-import { FileData, FolderData, NewItemType } from "../../../types";
+import { FileData, FolderData, ItemType } from "../../../types";
 import {
   ExpandIcon,
   FolderItemButton,
@@ -24,8 +24,8 @@ interface FolderItemProps {
   getFileById: (id: number) => FileData | null;
   activeFolderId: number;
   onClick: (id: number) => void;
-  onAddItemClick: (type: NewItemType) => void;
-  onDeleteClick: () => void;
+  onAddItemClick: (type: ItemType) => void;
+  onDeleteClick: (id: number, type: ItemType) => void;
 }
 
 const FolderItem = ({
@@ -57,6 +57,9 @@ const FolderItem = ({
   const handleAddMenuClose = (e: any) => {
     setAddMenuOpen(false);
   };
+  const onDeleteFolderClick = () => {
+    onDeleteClick(id, ItemType.FOLDER);
+  };
 
   return (
     <>
@@ -74,7 +77,11 @@ const FolderItem = ({
           <IconButton disableRipple sx={{ padding: 0 }} onClick={onAddClick}>
             <AddBoxIcon sx={{ color: COLOR_TEXT_LIGHTGRAY }} />
           </IconButton>
-          <IconButton disableRipple sx={{ padding: 0 }}>
+          <IconButton
+            disableRipple
+            sx={{ padding: 0 }}
+            onClick={onDeleteFolderClick}
+          >
             <DeleteIcon sx={{ color: COLOR_TEXT_LIGHTGRAY }} />
           </IconButton>
         </RightButtonContainer>
@@ -111,11 +118,11 @@ const FolderItem = ({
         onClose={handleAddMenuClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <AddMenuItem onClick={() => onAddItemClick(NewItemType.FOLDER)}>
+        <AddMenuItem onClick={() => onAddItemClick(ItemType.FOLDER)}>
           <FolderIcon />
           Add Folder
         </AddMenuItem>
-        <AddMenuItem onClick={() => onAddItemClick(NewItemType.FILE)}>
+        <AddMenuItem onClick={() => onAddItemClick(ItemType.FILE)}>
           <MovieCreationOutlinedIcon />
           Add Sequence
         </AddMenuItem>

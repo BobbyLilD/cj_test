@@ -1,7 +1,7 @@
 export interface FolderData {
     id: number;
     title: string;
-    parentFolderId?: number;
+    parentFolderId: number | null;
     childFolderIdList: number[];
     fileIdList: number[];
 }
@@ -12,7 +12,7 @@ export interface FileData {
     parentFolderId: number;
 }
 
-export enum NewItemType {
+export enum ItemType {
     FOLDER,
     FILE
 }

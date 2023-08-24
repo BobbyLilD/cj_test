@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Button, IconButton, InputBase, TextField } from "@mui/material";
+import { Box, Button, IconButton, InputBase } from "@mui/material";
 import {
   COLOR_GREY_NEUTRAL,
   COLOR_DARK_GREY,
@@ -23,7 +23,6 @@ export const FormContainer = styled(Box)({
   boxShadow: "0px 8px 40px 0px rgba(0, 0, 0, 0.30)",
   display: "flex",
   flexDirection: "column",
-  //   padding: `${pxToRem(8)} ${pxToRem(14)} ${pxToRem(12)} ${pxToRem(12)}`,
 });
 
 export const TitleInput = styled(InputBase)({

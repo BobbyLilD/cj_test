@@ -10,7 +10,7 @@ import {
 import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
-import { FolderData, NewItemType } from "../../../types";
+import { FolderData, ItemType } from "../../../types";
 import { Clear, Folder } from "@mui/icons-material";
 import { useState } from "react";
 
@@ -19,7 +19,7 @@ interface AddItemModalProps {
   getFolderById: (id: number) => FolderData | null;
   modalOpen: boolean;
   changeModalOpen: () => void;
-  newItemType: NewItemType;
+  newItemType: ItemType;
   onSubmit: (title: string) => void;
 }
 
@@ -53,13 +53,13 @@ const AddItemModal = ({
             {folderData?.title}
           </FolderTitle>
           <ChevronRightOutlinedIcon />
-          {`New ${newItemType === NewItemType.FILE ? "Sequence" : "Folder"}`}
+          {`New ${newItemType === ItemType.FILE ? "Sequence" : "Folder"}`}
         </PathContainer>
         <TitleInput
           value={value}
           onChange={(e) => onValueChange(e.target.value)}
           placeholder={`Enter ${
-            newItemType === NewItemType.FILE ? "sequence" : "folder"
+            newItemType === ItemType.FILE ? "sequence" : "folder"
           } name`}
           startAdornment={
             <InputAdornment position="start">

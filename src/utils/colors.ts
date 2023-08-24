@@ -14,3 +14,6 @@ export const COLOR_PLACEHOLDER = '#ACACAC'
 export const COLOR_DARK_GREY = '#626262';
 export const COLOR_DARKER_GREY = '#323232';
 export const COLOR_GREY_NEUTRAL = '#333333';
+
+export const COLOR_RED_MAIN = '#DB5C5C';
+export const COLOR_RED_DARK = '#5E3838';
