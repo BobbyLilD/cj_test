@@ -29,18 +29,25 @@ const AddItemModal = ({
   modalOpen,
   changeModalOpen,
   newItemType,
-  onSubmit
+  onSubmit,
 }: AddItemModalProps) => {
   const folderData = getFolderById(folderId);
   const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
   const onValueChange = (val: string) => {
     setValue(val);
-  }
+  };
   const onFormSubmit = () => {
-    onSubmit(value);
-    setValue('');
-    changeModalOpen();
-  }
+    if (value.trim() !== "") {
+      setError(false);
+      onSubmit(value);
+      setValue("");
+      changeModalOpen();
+    } else {
+      setValue('');
+      setError(true);
+    }
+  };
 
   return (
     <Modal open={modalOpen} onClose={changeModalOpen} disableAutoFocus>
@@ -57,6 +64,7 @@ const AddItemModal = ({
           {`New ${newItemType === ItemType.FILE ? "Sequence" : "Folder"}`}
         </PathContainer>
         <TitleInput
+          error={error}
           value={value}
           onChange={(e) => onValueChange(e.target.value)}
           placeholder={`Enter ${

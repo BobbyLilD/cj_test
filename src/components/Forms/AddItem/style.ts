@@ -8,6 +8,7 @@ import {
   COLOR_PLACEHOLDER,
   COLOR_TEXT_LIGHTGRAY,
   COLOR_DARKER_GREY,
+  COLOR_RED_MAIN,
 } from "../../../utils/colors";
 import { pxToRem } from "../../../utils/helpers";
 
@@ -25,7 +26,7 @@ export const FormContainer = styled(Box)({
   flexDirection: "column",
 });
 
-export const TitleInput = styled(InputBase)({
+export const TitleInput = styled(InputBase)(({error}) => ({
   padding: pxToRem(10),
   margin: `${pxToRem(8)} ${pxToRem(5)} ${pxToRem(24)} ${pxToRem(5)}`,
   fontFamily: "Inter",
@@ -34,14 +35,14 @@ export const TitleInput = styled(InputBase)({
   fontWeight: 400,
   lineHeight: "normal",
   color: COLOR_TEXT_LIGHTGRAY,
-  "::placeholder": {
-    color: COLOR_PLACEHOLDER,
+  "& input::placeholder": {
+    color: error ? COLOR_RED_MAIN : COLOR_PLACEHOLDER,
   },
 
   "& .MuiSvgIcon-root": {
     color: COLOR_DARK_GREY,
   },
-});
+}));
 
 export const SubmitButton = styled(Button)({
     alignSelf: 'end',
