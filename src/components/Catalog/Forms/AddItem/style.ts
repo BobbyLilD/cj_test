@@ -9,8 +9,8 @@ import {
   COLOR_TEXT_LIGHTGRAY,
   COLOR_DARKER_GREY,
   COLOR_RED_MAIN,
-} from "../../../utils/colors";
-import { pxToRem } from "../../../utils/helpers";
+} from "../../../../utils/colors";
+import { pxToRem } from "../../../../utils/helpers";
 
 export const FormContainer = styled(Box)({
   position: "absolute",

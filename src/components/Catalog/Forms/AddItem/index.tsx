@@ -10,7 +10,7 @@ import {
 import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
-import { FolderData, ItemType } from "../../../types";
+import { FolderData, ItemType } from "../../../../types";
 import { Clear, Folder } from "@mui/icons-material";
 import { useState } from "react";
 

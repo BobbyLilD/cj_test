@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, Button, Typography } from "@mui/material";
-import { COLOR_GREY_NEUTRAL, COLOR_DRAWER_BACKGROUND, COLOR_TEXT_LIGHTGRAY, COLOR_RED_MAIN, COLOR_RED_DARK } from "../../../utils/colors";
-import { pxToRem } from "../../../utils/helpers";
+import { COLOR_GREY_NEUTRAL, COLOR_DRAWER_BACKGROUND, COLOR_TEXT_LIGHTGRAY, COLOR_RED_MAIN, COLOR_RED_DARK } from "../../../../utils/colors";
+import { pxToRem } from "../../../../utils/helpers";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export const FormContainer = styled(Box)({

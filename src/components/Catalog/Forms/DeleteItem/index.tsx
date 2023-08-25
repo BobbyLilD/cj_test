@@ -1,5 +1,5 @@
 import { Modal } from "@mui/material";
-import { ItemType } from "../../../types";
+import { ItemType } from "../../../../types";
 import {
   ButtonContainer,
   CancelButton,

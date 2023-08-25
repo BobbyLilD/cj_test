@@ -17,12 +17,12 @@ import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined
 import { COLOR_TEXT_LIGHTGRAY } from "../../../utils/colors";
 import { pxToRem } from "../../../utils/helpers";
 import FileItem from "../FileItem";
+import './style.css';
 
 interface FolderItemProps {
   id: number;
   getFolderById: (id: number) => FolderData | null;
   getFileById: (id: number) => FileData | null;
-  activeFolderId: number;
   onClick: (id: number) => void;
   onAddItemClick: (type: ItemType) => void;
   onDeleteClick: (id: number, type: ItemType) => void;
@@ -32,7 +32,6 @@ const FolderItem = ({
   id,
   getFolderById,
   getFileById,
-  activeFolderId,
   onClick,
   onAddItemClick,
   onDeleteClick,
@@ -65,7 +64,7 @@ const FolderItem = ({
     <>
       <FolderItemButton
         onClick={onFolderClick}
-        sx={activeFolderId === id ? ItemActiveSX : {}}
+        sx={openSubList ? ItemActiveSX : {}}
         ref={anchorRef}
       >
         <ExpandIcon
@@ -98,7 +97,6 @@ const FolderItem = ({
                 onAddItemClick={onAddItemClick}
                 onDeleteClick={onDeleteClick}
                 onClick={onClick}
-                activeFolderId={activeFolderId}
               />
             ))}
           {data &&

@@ -1,0 +1,17 @@
+.active-folder{
+    background-color: #343434 !important;
+}
+
+.active-folder:hover{
+    background-color: #343434A0 !important;
+}
+
+.active-folder::before{
+    content: "";
+    width: 3px;
+    height: 20px;
+    background: #FFB800;
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+}

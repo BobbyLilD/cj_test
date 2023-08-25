@@ -45,3 +45,35 @@ export const fileListMock: FileData[] = [
     parentFolderId: 2,
   },
 ];
+
+export const folderListMockV2 = () => {
+  let res: FolderData[] = [];
+  res.push({
+    id: 1,
+    title: "root",
+    childFolderIdList: [],
+    fileIdList: [],
+    parentFolderId: null,
+  });
+  for (let i = 2; i < 1000; i++) {
+    res.push({
+      id: i,
+      title: "test",
+      childFolderIdList: [],
+      fileIdList: [],
+      parentFolderId: 1,
+    });
+    res[0].childFolderIdList.push(i)
+  }
+  // for (let i = 2; i < 1000; i++) {
+  //   res.push({
+  //     id: i + 1000,
+  //     title: "test",
+  //     childFolderIdList: [],
+  //     fileIdList: [],
+  //     parentFolderId: 2,
+  //   });
+  //   res[1].childFolderIdList.push(i)
+  // }
+  return res;
+};
