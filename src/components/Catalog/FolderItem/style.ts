@@ -26,6 +26,9 @@ export const FolderTitleTypography = styled(ListItemText)({
     letterSpacing: "0em",
     textAlign: "left",
     color: COLOR_TEXT_LIGHTGRAY,
+    maxWidth: 160,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 });
 

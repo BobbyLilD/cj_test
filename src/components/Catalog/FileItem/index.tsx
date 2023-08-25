@@ -20,7 +20,7 @@ const FileItem = ({ id, getFileById, onDeleteClick }: FileItemProps) => {
   return (
     <FileItemButton>
       <MovieCreationOutlinedIcon sx={{ color: COLOR_TEXT_LIGHTGRAY }} />
-      <FileTitleTypography primary={data?.title} />
+      <FileTitleTypography primary={data?.title}/>
       <IconButton disableRipple sx={{ padding: 0 }} onClick={onDeleteFileClick}>
         <DeleteIcon sx={{ color: COLOR_TEXT_LIGHTGRAY }} />
       </IconButton>

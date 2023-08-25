@@ -30,5 +30,8 @@ export const FileTitleTypography = styled(ListItemText)({
     letterSpacing: "0em",
     textAlign: "left",
     color: COLOR_TEXT_LIGHTGRAY,
+    maxWidth: 220,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 });
