@@ -36,7 +36,7 @@ const DeleteItemModal = ({
       res = res + folders[i] + "/";
     }
     setPath(res.substring(0, res.length - 1));
-  }, [itemId]);
+  }, [itemId, getItemPath]);
 
   const handleClose = () => {
     changeModalOpen();

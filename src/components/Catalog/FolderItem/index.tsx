@@ -17,7 +17,6 @@ import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined
 import { COLOR_TEXT_LIGHTGRAY } from "../../../utils/colors";
 import { pxToRem } from "../../../utils/helpers";
 import FileItem from "../FileItem";
-import './style.css';
 
 interface FolderItemProps {
   id: number;

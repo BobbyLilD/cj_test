@@ -1,9 +1,8 @@
 import { List } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   folderListDataMock,
   fileListMock,
-  folderListMockV2,
 } from "../../App.test";
 import { ItemType, FileData, FolderData } from "../../types";
 import FolderItem from "./FolderItem";
